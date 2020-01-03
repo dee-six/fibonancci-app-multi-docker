@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  ngnix:
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: dev.Dockerfile
+    ports:
+      - '3050:80'
+
+  postgres:
+    image: postgres:latest
+
+  redis:
+    image: redis:latest
+
+  fibonancci-app-server:
+    restart: "no"
+    working_dir: /usr/app/fibonancci-server-app
+    build: 
+      context: ./server
+      dockerfile: dev.Dockerfile
+    depends_on:
+      - postgres      
+    volumes: 
+      - /usr/app/fibonancci-server-app/node_modules
+      - /devArea/udemy/docker-n-kubernetes/fibonancci-app/server:/usr/app/fibonancci-server-app
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGPASSWORD=postgres_password
+      - PGPORT=5432
+
+  fibonancci-app-client:
+    restart: "no"
+    working_dir: /usr/app/fibonancci-client-app
+    build: 
+      context: ./client
+      dockerfile: dev.Dockerfile
+    volumes: 
+      - /usr/app/fibonancci-client-app/node_modules
+      - /devArea/udemy/docker-n-kubernetes/fibonancci-app/client:/usr/app/fibonancci-client-app
+
+  fibonancci-app-worker:
+    restart: "no"
+    working_dir: /usr/app/fibonancci-worker-app
+    build: 
+      context: ./worker
+      dockerfile: dev.Dockerfile
+    volumes: 
+      - /usr/app/fibonancci-worker-app/node_modules
+      - /devArea/udemy/docker-n-kubernetes/fibonancci-app/worker:/usr/app/fibonancci-worker-app
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
