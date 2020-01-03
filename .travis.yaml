@@ -1,4 +1,4 @@
-language: ruby
+language: generic
 sudo: required
 services:
   - docker
@@ -10,6 +10,7 @@ script:
   - docker run -e CI=true deepak1947/fibonancci-app-multi-docker npm run test -- --coverage 
 
 after_success:
+  - gem install bundler
   - docker build -t deepak1947/fibonancci-app-client ./client
   - docker build -t deepak1947/fibonancci-app-ngnix ./nginx
   - docker build -t deepak1947/fibonancci-app-server ./server
