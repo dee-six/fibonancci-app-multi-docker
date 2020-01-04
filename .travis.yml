@@ -10,18 +10,17 @@ script:
   - docker run -e CI=true deepak1947/fibonancci-app-multi-docker npm run test -- --coverage 
 
 
-# after_success:
-#  - gem install bundler
-#  - docker build -t deepak1947/fibonancci-app-client ./client
-#  - docker build -t deepak1947/fibonancci-app-ngnix ./nginx
-#  - docker build -t deepak1947/fibonancci-app-server ./server
-#  - docker build -t deepak1947/fibonancci-app-work ./worker
+after_success:
+  - docker build -t deepak1947/fibonancci-app-client ./client
+  - docker build -t deepak1947/fibonancci-app-ngnix ./nginx
+  - docker build -t deepak1947/fibonancci-app-server ./server
+  - docker build -t deepak1947/fibonancci-app-work ./worker
 
 # login to docker
-#  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
 # docker push to hub
-#- docker push deepak1947/fibonancci-app-client
-#- docker push deepak1947/fibonancci-app-ngnix
-#- docker push deepak1947/fibonancci-app-server
-#- docker push deepak1947/fibonancci-app-work
+- docker push deepak1947/fibonancci-app-client
+- docker push deepak1947/fibonancci-app-ngnix
+- docker push deepak1947/fibonancci-app-server
+- docker push deepak1947/fibonancci-app-work
