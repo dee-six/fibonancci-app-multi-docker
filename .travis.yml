@@ -3,7 +3,7 @@ sudo: required
 services:
   - docker
 
-before_install_1: 
+before_install: 
   - docker build -t deepak1947/fibonancci-app-multi-docker -f ./client/dev.Dockerfile ./client
 
 script:
