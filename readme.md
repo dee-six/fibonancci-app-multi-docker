@@ -1,7 +1,2 @@
-This brach nodeport will access the application using nodeport:port as configured this k8s/folder.
+This brrach "clusterip" will access the application using ingress service as configured this k8s/folder.
 
-to access the pod
-
-minikube ip
-
-<ip>:31515
